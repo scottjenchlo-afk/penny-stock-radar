@@ -1,11 +1,11 @@
 {
   "name": "Penny Stock Radar",
   "short_name": "Stock Radar",
-  "description": "Personal penny stock watchlist and screening dashboard",
+  "description": "Personal penny stock screening and watchlist dashboard",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07130f",
-  "theme_color": "#07130f",
+  "background_color": "#07110c",
+  "theme_color": "#07110c",
   "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
