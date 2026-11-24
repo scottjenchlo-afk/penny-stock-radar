@@ -171,6 +171,31 @@ async function scan(){
 }
 $('scan').onclick=scan;
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+const originalFetchDaily = fetchDaily;
+let lastRequest = 0;
+
+fetchDaily = async function(symbol) {
+  const wait = 15000 - (Date.now() - lastRequest);
+  if (wait > 0) await pause(wait);
+  lastRequest = Date.now();
+  try {
+    return await originalFetchDaily(symbol);
+  } catch (e) {
+    if (/rate limit|25 requests|frequency/i.test(e.message)) {
+      throw Error('Provider daily rate limit reached.');
+    }
+    throw Error('Daily stock data unavailable.');
+  }
+};
+
+const originalStatus = setStatus;
+setStatus = function(status) {
+  originalStatus(
+    status === 'END-OF-DAY DATA LOADED' && !latest.length
+      ? 'NO DATA AVAILABLE'
+      : status
+  );
+};
 </script>
 </body>
 </html>
